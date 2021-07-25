@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import { v1 } from 'uuid';
+import { FilterValuesType } from './Input';
 
-export type FilterValuesType = "all" | "active" | "completed";
+
 
 function App() {
 
@@ -48,7 +49,6 @@ function App() {
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
-
             />
         </div>
     );
