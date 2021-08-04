@@ -3,7 +3,8 @@ import s from "./App.module.css";
 
 export type FilterValuesType = "all" | "active" | "completed";
 type InputType = {
-    addTask: (title:string) => void
+    id: string
+    addTask: (title:string, todolistId: string) => void
 }
 export const Input = (props: InputType) => {
     let [title, setTitle] = useState("");
@@ -11,7 +12,7 @@ export const Input = (props: InputType) => {
 
     const addTask = () => {
         if(title.trim() !== ""){
-            props.addTask(title);
+            props.addTask(title.trim(), props.id);
             setTitle("");
         }else{
             setError("Title not input");
