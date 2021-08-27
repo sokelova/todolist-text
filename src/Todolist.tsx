@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from "./Input";
 import { Input } from './Input';
 import s from "./App.module.css";
+import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 
 export type TaskType = {
     id: string
@@ -17,6 +18,7 @@ export type PropsType = {
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (id:string, isDone: boolean, todolistId: string) => void
+    changeTaskTitle: (id:string, newTitle: string, todolistId: string) => void
     filter: string
     removeTodolist: (todolistId: string) => void
 }
@@ -29,6 +31,7 @@ export function Todolist(props: PropsType) {
     const removeTodolist = () => {
         props.removeTodolist(props.id)
     }
+
     return <div>
         <h3>{props.title}</h3>
         <div>
@@ -40,14 +43,17 @@ export function Todolist(props: PropsType) {
                 props.tasks.map(t => {
 
                     const onClickHandler = () => {props.removeTask(t.id, props.id)}
-                    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                    const onChangeStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
                         let newIsDoneValue = event.currentTarget.checked;
                         props.changeTaskStatus(t.id, newIsDoneValue, props.id);
                     }
+                    const onChangeTitleHandler = (newValue: string) => {
+                        props.changeTaskTitle(t.id, newValue, props.id);
+                    }
 
                     return <li key={t.id} className={t.isDone ? s.isDone_executed : ""}>
-                        <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
-                        <span>{t.title}</span>
+                        <input type="checkbox" onChange={onChangeStatusHandler} checked={t.isDone}/>
+                        <EditableSpan title={t.title} editMode={true} onChange={onChangeTitleHandler}/>
                         <button onClick={onClickHandler}>x</button>
                     </li>
                 })
