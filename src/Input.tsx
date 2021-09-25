@@ -1,5 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from "./App.module.css";
+import {Button, IconButton, TextField} from "@material-ui/core";
+import {ControlPoint} from "@material-ui/icons";
 
 export type FilterValuesType = "all" | "active" | "completed";
 type InputType = {
@@ -28,10 +30,18 @@ export const Input = (props: InputType) => {
         setError("");
         if (event.charCode===13) {addTask();}
     };
-    const errorClas = s.error_message;
     return <div>
-        <input value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-        <button onClick={addTask}>+</button>
-        <div className={errorClas}>{error}</div>
+        <TextField
+            value={title}
+            variant={'outlined'}
+            label={'Type value'}
+            onChange={onChangeHandler}
+            onKeyPress={onKeyPressHandler}
+            error={!!error}
+            helperText={error}
+        />
+        <IconButton onClick={addTask}>
+            <ControlPoint />
+        </IconButton>
     </div>
 }
